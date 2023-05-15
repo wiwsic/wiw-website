@@ -16,8 +16,8 @@ const videos = [
     title: "construto",
   },
   {
-    src: "assets/video/DEGENERATE-1.mp4",
-    title: "DEGENERATE-1",
+    src: "assets/video/degenerate-1.mp4",
+    title: "degenerate-1",
   },
   {
     src: "assets/video/degenerate-4.mp4",

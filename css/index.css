@@ -111,9 +111,9 @@ main video {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 100%;
-  min-height: 100%;
+  width: 50%;
   z-index: 2;
+  border: 2px solid #ffffff;
 }
 
 main #text-box {
@@ -122,11 +122,9 @@ main #text-box {
   left: 5%;
   font-size: 1.5rem;
   font-style: normal;
-  color: #ffffff40;
+  color: #ffffff;
   text-decoration: none;
   z-index: 3;
-  opacity: 0.2;
-  transition: opacity 0.5s ease-in-out;
   display: block;
 }
 
@@ -148,7 +146,7 @@ main #next-btn {
   text-indent: -9999px;
   border: none;
   outline: none;
-  opacity: 0.2;
+  opacity: 0.1;
   transition: opacity 0.5s ease-in-out;
   z-index: 2;
 }
@@ -288,7 +286,7 @@ header .about-title {
 
 .portfolio-column p {
   position: relative;
-  text-align: start;
+  text-align: center;
   font-size: 1.4rem;
   font-weight: 800;
   color: #000000;
