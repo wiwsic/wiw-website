@@ -1,0 +1,73 @@
+#principal-portfolio {
+    background-color: black;
+}
+
+.content {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.portfolio-section {
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid white;
+    padding-bottom: 0.5rem;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+h2 a {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid white;
+    padding-bottom: 0.5rem;
+}
+
+a:hover {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    a {
+        font-size: 1rem;
+        padding: 0.25rem 0.5rem;
+    }
+}

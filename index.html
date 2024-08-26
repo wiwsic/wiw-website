@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WiW</title>
-    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap">
     <link rel="stylesheet" href="css/index.css">
 </head>
-
 <body>
-    <div class="container">
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="assets/img/png/wiwblack.png" alt="WiW Logo" class="logo">
+        </a>
+        <nav>
+            <a href="#" class="active">humachine human<span>ized experiment</span></a>
+            <a href="about.html">about</a>
+        </nav>
+    </header>
+
+    <main>
         <div class="content">
-            <div class="column"></div>
-            <header>
-                <div class="box1">
-                    <img src="assets/img/png/wiwblack.png" alt="Logo WiW">
-
-                </div>
-
-                <div class="box2"></div>
-
-                <nav>
-                    <a href="" class="humachine-link">humachine human<span class="experiment-text">ized
-                            experiment</span></a>
-                    <a href="about.html" class="about-link">about</a>
-
-                </nav>
-            </header>
-            <main id="principal">
-                <video id="video-player" autoplay muted controls loop>
-                    <div id="video-list"></div>
+            <div class="text-content">
+                <h1 id="work-title">PSEUDO</h1>
+                <p id="work-description">
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                    dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est
+                    laborum."
+                </p>
+            </div>
+            <div class="media-content">
+                <a id="work-link" href="#" target="_blank">
+                <img id="work-image" src="assets/artworks/pseudo1.png" alt="PSEUDO" style="display: none;">
+                <video id="work-video" autoplay loop muted playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
                 </video>
-                <a id="text-box" href="https://www.fxhash.xyz/generative/16307">sistemas.15</a>
-                <button id="next-btn" style="background-image: url('assets/img/png/nextwhite.png')">Next</button>
-            </main>
-            <footer>
-                <nav>
-                    <a href="https://linktr.ee/wiwsic" class="follow">follow me on the internet</a>
-                    <a href="mailto:wiw@wiwsic.xyz?subject=Email%20Subject&body=Email%20Body" class="e-mail">send me
-                        e-mail</a>
-                    <a href="portfolio.html" class="portfolio-link">portfolio</a>
-
-                </nav>
-            </footer>
+            </a>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+        <button id="next-btn" class="next-button">→</button>
+    </main>
 
+    <footer>
+        <nav>
+            <a href="https://linktr.ee/wiwsic">follow me on the internet</a>
+            <a href="mailto:wiw@wiwsic.xyz">send me e-mail</a>
+            <a href="portfolio.html">portfolio</a>
+            <a href="gallery.html">gallery</a>
+        </nav>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
 </html>
