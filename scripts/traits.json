@@ -1,0 +1,209 @@
+{
+    "Palette": [
+        {
+            "trait_description": "Agora",
+            "trait_value": "0",
+            "weight": 476
+        },
+        {
+            "trait_description": "Quando",
+            "trait_value": "1",
+            "weight": 952
+        },
+        {
+            "trait_description": "Mares",
+            "trait_value": "2",
+            "weight": 1428
+        },
+        {
+            "trait_description": "Flamingo",
+            "trait_value": "3",
+            "weight": 1904
+        },
+        {
+            "trait_description": "Corrente",
+            "trait_value": "4", 
+            "weight": 2380
+        },
+        {
+            "trait_description": "Durante",
+            "trait_value": "5",
+            "weight": 2856
+        },
+        {
+            "trait_description": "Aqui",
+            "trait_value": "6",
+            "weight": 3332
+        },
+        {
+            "trait_description": "Janelas",
+            "trait_value": "7",
+            "weight": 3808
+        },
+        {
+            "trait_description": "Fuga",
+            "trait_value": "8",
+            "weight": 4284
+        },
+        {
+            "trait_description": "Nuvem",
+            "trait_value": "9",
+            "weight": 4760
+        },
+        {
+            "trait_description": "Logo",
+            "trait_value": "10",
+            "weight": 5236
+        },
+        {
+            "trait_description": "Ira",
+            "trait_value": "11",
+            "weight": 5712
+        },
+        {
+            "trait_description": "Calma",
+            "trait_value": "12",
+            "weight": 6188
+        },
+        {
+            "trait_description": "Nuevo",
+            "trait_value": "13",
+            "weight": 6664
+        },
+        {
+            "trait_description": "Denso",
+            "trait_value": "14",
+            "weight": 7140
+        },
+        {
+            "trait_description": "Cheiro",
+            "trait_value": "15",
+            "weight": 7616
+        },
+        {
+            "trait_description": "Melodia",
+            "trait_value": "16",
+            "weight": 8092
+        },
+        {
+            "trait_description": "Ferro",
+            "trait_value": "17",
+            "weight": 8568
+        },
+        {
+            "trait_description": "Terra",
+            "trait_value": "18",
+            "weight": 9044
+        },
+        {
+            "trait_description": "Fogo",
+            "trait_value": "19",
+            "weight": 9520
+        },
+        {
+            "trait_description": "Junto",
+            "trait_value": "20",
+            "weight": 10000
+        }
+    ],
+    "Color Distribution": [
+        {
+            "trait_description": "Predominance",
+            "trait_value": "1",
+            "weight": 3333
+        },
+        {
+            "trait_description": "Semi-Predominance",
+            "trait_value": "2",
+            "weight": 6666
+        },
+        {
+            "trait_description": "Equality",
+            "trait_value": "3",
+            "weight": 10000
+        }
+    ],
+    "Grid": [
+        {
+            "trait_description": "1",
+            "trait_value": "1",
+            "weight": 1666
+        },
+        {
+            "trait_description": "2",
+            "trait_value": "2",
+            "weight": 3334
+        },
+        {
+            "trait_description": "3",
+            "trait_value": "3",
+            "weight": 5001
+        },
+        {
+            "trait_description": "4",
+            "trait_value": "4",
+            "weight": 6668
+        },
+        {
+            "trait_description": "5",
+            "trait_value": "5",
+            "weight": 8335
+        },
+        {
+            "trait_description": "6",
+            "trait_value": "6",
+            "weight": 10000
+        }
+    ],
+    "Anomalia": [
+        {
+            "trait_description": "False",
+            "trait_value": "0",
+            "weight": 7500
+        },
+        {
+            "trait_description": "True",
+            "trait_value": "1",
+            "weight": 10000
+        }
+    ],
+    "Background Color": [
+        {
+            "trait_description": "Colorful",
+            "trait_value": "1",
+            "weight": 8000
+        },
+        {
+            "trait_description": "White",
+            "trait_value": "2",
+            "weight": 9500
+        },
+        {
+            "trait_description": "Black",
+            "trait_value": "3",
+            "weight": 10000
+        }
+    ],   
+    "Background Pattern": [
+        {
+            "trait_description": "1",
+            "trait_value": "1",
+            "weight": 2500
+        },
+        {
+            "trait_description": "2",
+            "trait_value": "2",
+            "weight": 5000
+        },
+        {
+            "trait_description": "3",
+            "trait_value": "3",
+            "weight": 7500
+        },
+        {
+            "trait_description": "4",
+            "trait_value": "4",
+            "weight": 10000
+        }
+    ]   
+}
