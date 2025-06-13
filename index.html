@@ -7,7 +7,322 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/png/wiw32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/png/wiw16.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap">
-    <link rel="stylesheet" href="css/index.css">
+    <style>
+        html {
+            font-size: 16px;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Serif', serif;
+            background-color: black;
+            color: white;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        header nav a {
+            color: black;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 2.25rem;
+            font-weight: 400;
+        }
+
+        header nav a.active span {
+            background-color: black;
+            color: white;
+            padding: 2px 5px;
+        }
+
+        main {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .text-content {
+            position: absolute;
+            z-index: 100;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+            cursor: move;
+            user-select: none;
+            max-width: 400px;
+            left: 50px;
+            top: 50px;
+            overflow: hidden;
+        }
+
+        .text-content.expanded {
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transition: max-width 0.3s ease, max-height 0.3s ease;
+        }
+
+        .text-content.dragging {
+            cursor: grabbing !important;
+        }
+
+        .text-content:active {
+            cursor: grabbing;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            color: black;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0;
+            color: black;
+        }
+
+        .description-preview {
+            display: block;
+        }
+
+        .description-full {
+            display: none;
+        }
+
+        .text-content.expanded .description-preview {
+            display: none;
+        }
+
+        .text-content.expanded .description-full {
+            display: block;
+        }
+
+        .more-button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin-top: 10px;
+            padding: 0;
+            font-family: 'IBM Plex Serif', serif;
+        }
+
+        .more-button:hover {
+            color: #333;
+        }
+
+        .work-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #333;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            font-family: 'IBM Plex Serif', serif;
+            cursor: pointer;
+        }
+
+        .work-link:hover {
+            color: #666;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            display: none;
+        }
+
+        .text-content.expanded .close-button {
+            display: block;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .media-content {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+            right: 100px;
+            top: 100px;
+            max-width: 50vw;
+            max-height: 60vh;
+        }
+
+        .media-content.dragging {
+            cursor: grabbing !important;
+        }
+
+        .media-content.dragging a {
+            pointer-events: none !important;
+        }
+
+        .media-content a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .media-content img,
+        .media-content video {
+            max-width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .next-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2.25rem;
+            cursor: pointer;
+            font-family: 'IBM Plex Serif', serif;
+            font-weight: 400;
+            z-index: 200;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .next-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        footer {
+            background-color: white;
+            padding: 10px 0;
+            position: relative;
+            z-index: 1000;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        footer nav a {
+            color: black;
+            text-decoration: none;
+            font-size: 2.25rem;
+            font-weight: 400;
+        }
+
+        .logo-link {
+            display: inline-block;
+            line-height: 0;
+        }
+
+        .logo-link:hover {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .dragging {
+            z-index: 999 !important;
+        }
+
+        @media (max-width: 1200px) {
+            html {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 12px;
+            }
+
+            body {
+                overflow-y: auto;
+            }
+
+            .content {
+                position: static;
+                padding: 20px;
+            }
+
+            .text-content {
+                position: static;
+                margin-bottom: 20px;
+                max-width: none;
+            }
+
+            .media-content {
+                position: static;
+                max-width: 100%;
+            }
+
+            .text-content,
+            .media-content {
+                cursor: default;
+            }
+
+            header nav a, footer nav a {
+                font-size: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .next-button {
+                bottom: 20px;
+                top: auto;
+                right: 20px;
+                transform: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -22,20 +337,31 @@
 
     <main>
         <div class="content">
-            <div class="text-content">
+            <div class="text-content" id="text-content">
+                <button class="close-button" id="close-btn">×</button>
                 <h1 id="work-title">PSEUDO</h1>
-                <p id="work-description">
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                    enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                    dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est
-                    laborum."
-                </p>
+                <div class="description-preview">
+                    <p id="work-description-preview">
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+                    </p>
+                    <button class="more-button" id="more-btn">mais</button>
+                </div>
+                <div class="description-full">
+                    <p id="work-description-full">
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                        enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                        dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est
+                        laborum."
+                    </p>
+                    <a href="#" id="work-link-full" class="work-link" target="_blank">View</a>
+                </div>
             </div>
-            <div class="media-content">
+            <div class="media-content" id="media-content">
                 <a id="work-link" href="#" target="_blank">
                 <img id="work-image" src="assets/artworks/pseudo1.png" alt="PSEUDO" style="display: none;">
                 <video id="work-video" autoplay loop muted playsinline>
@@ -57,6 +383,215 @@
         </nav>
     </footer>
 
-    <script src="index.js"></script>
+    <script>
+        const works = [
+            {
+                title: "QUASE",
+                description: "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms. The result is a dynamic artwork that sparks contemplation on the harmonious collaboration between human creativity and the machine's execution. It highlights the similarities between humans and machines-both capable of choices, adaptation, and information processing, though in different ways. The abstract nature of 'Quase' invites subjective interpretation, allowing viewers to engage with the artwork on a personal level. Made with p5js.",
+                media: "assets/video/QUASE-12.mp4",
+                type: "video",
+                link: "https://256art.com/project/quase-3"
+            },
+            {
+                title: "PSEUDO",
+                description: "In 'Pseudo' I continue my exploration of abstract aesthetics, aiming to create a visual experience that evokes familiarity without being completely definable. The interplay of particle movement lies at the core of this artwork, forming a dynamic canvas where the viewer becomes an integral part of the creative process. Made with p5js.",
+                media: "assets/artworks/pseudo1.png",
+                type: "image",
+                link: "https://prohibition.art/project/pseudo"
+            },
+            {
+                title: "ESSE",
+                description: "'esse' is an exploration of the intersection between typography and symmetry, delving into palindromes and symbols. Each result seeks to challenge the viewer's perception, inviting them to try to place meaning into something abstract. Made with hydra-synth.",
+                media: "assets/artworks/esse2.gif",
+                type: "image",
+                link: "https://www.fxhash.xyz/generative/30740"
+            },
+            {
+                title: "ECO",
+                description: "eco is a long-form generative art project that uses a grid system to create patterns within a composition. The algorithm allocates cells of different sizes within the grid and inserts patterns into each one. The allocation of patterns is done using flow fields to enhance distribution dynamism. It features 14 color palettes. Made with p5js.",
+                media: "assets/artworks/eco1.png",
+                type: "image",
+                link: "https://beta.koda.art/base/drops/eco"
+            },
+            {
+                title: "APOFENIA",
+                description: "Apofenia is a short film directed by me with sound design by NAGUAL555. The image captures were taken during the SEED x BOSQUE GRACIAS artistic residency (2024), documenting various moments and works by different artists. Hydra-synth sound visualizers + pos-production.",
+                media: "assets/artworks/apofenia.gif",
+                type: "image",
+                link: "https://zora.co/collect/zora:0xd5fa58b8ce342c89e7864e01f18233fc07983e78/116"
+            },
+        ];
+
+        let currentIndex = 0;
+
+        // Drag functionality - Simplified version
+        let isDragging = false;
+        let dragElement = null;
+        let startX = 0;
+        let startY = 0;
+        let hasMoved = false;
+
+        function makeElementDraggable(element) {
+            element.addEventListener('mousedown', startDrag, { passive: false });
+            element.addEventListener('touchstart', startDrag, { passive: false });
+        }
+
+        function startDrag(e) {
+            if (window.innerWidth <= 768) return;
+            
+            // Don't start drag if clicking on buttons or links
+            if (e.target.classList.contains('more-button') || 
+                e.target.classList.contains('close-button') ||
+                e.target.classList.contains('work-link')) {
+                return;
+            }
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isDragging = true;
+            dragElement = e.currentTarget;
+            hasMoved = false;
+            
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            
+            // Get current element position
+            const rect = dragElement.getBoundingClientRect();
+            
+            // Calculate offset from mouse to element's current position
+            startX = clientX - rect.left;
+            startY = clientY - rect.top;
+            
+            dragElement.classList.add('dragging');
+            
+            document.addEventListener('mousemove', drag, { passive: false });
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDrag, { passive: false });
+            document.addEventListener('touchend', stopDrag, { passive: false });
+        }
+
+        function drag(e) {
+            if (!isDragging || !dragElement) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            hasMoved = true;
+            
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+            
+            // Position element so the mouse stays at the same relative position
+            // where the user initially clicked within the element
+            const newX = clientX - startX;
+            const newY = clientY - startY;
+            
+            dragElement.style.left = newX + 'px';
+            dragElement.style.top = newY + 'px';
+        }
+
+        function stopDrag(e) {
+            if (!isDragging) return;
+            
+            if (dragElement) {
+                dragElement.classList.remove('dragging');
+            }
+            
+            // Prevent click events if we actually dragged
+            if (hasMoved && dragElement && dragElement.id === 'media-content') {
+                setTimeout(() => {
+                    const link = dragElement.querySelector('a');
+                    if (link) {
+                        link.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            link.style.pointerEvents = 'auto';
+                        }, 100);
+                    }
+                }, 0);
+            }
+            
+            isDragging = false;
+            dragElement = null;
+            hasMoved = false;
+            
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        function updateContent() {
+            const work = works[currentIndex];
+            document.getElementById('work-title').textContent = work.title;
+            
+            // Create preview (first 120 characters + "...")
+            const preview = work.description.length > 120 ? 
+                work.description.substring(0, 120) + "..." : 
+                work.description;
+            
+            document.getElementById('work-description-preview').textContent = preview;
+            document.getElementById('work-description-full').textContent = work.description;
+            
+            // Update only the expanded view link
+            document.getElementById('work-link-full').href = work.link;
+            
+            // Reset expanded state
+            const textContent = document.getElementById('text-content');
+            textContent.classList.remove('expanded');
+            
+            const mediaLink = document.getElementById('work-link');
+            const imageElement = document.getElementById('work-image');
+            const videoElement = document.getElementById('work-video');
+
+            mediaLink.href = work.link;
+            
+            if (work.type === 'image') {
+                imageElement.src = work.media;
+                imageElement.style.display = 'block';
+                videoElement.style.display = 'none';
+            } else if (work.type === 'video') {
+                videoElement.src = work.media;
+                videoElement.style.display = 'block';
+                imageElement.style.display = 'none';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const textContent = document.getElementById('text-content');
+            const mediaContent = document.getElementById('media-content');
+            const moreBtn = document.getElementById('more-btn');
+            const closeBtn = document.getElementById('close-btn');
+            
+            makeElementDraggable(textContent);
+            makeElementDraggable(mediaContent);
+            
+            // Expand/collapse functionality
+            moreBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                textContent.classList.add('expanded');
+            });
+            
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                textContent.classList.remove('expanded');
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % works.length;
+                updateContent();
+            });
+            
+            updateContent();
+        });
+
+        // Prevent context menu on draggable elements
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.closest('.text-content') || e.target.closest('.media-content')) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
