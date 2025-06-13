@@ -81,6 +81,8 @@
             left: 50px;
             top: 50px;
             overflow: hidden;
+            font-size: 1rem;
+            transform-origin: top left;
         }
 
         .text-content.expanded {
@@ -177,6 +179,30 @@
 
         .close-button:hover {
             color: #333;
+        }
+
+        .size-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .size-button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #666;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .size-button:hover {
+            color: #333;
+            background-color: #f0f0f0;
         }
 
         .media-content {
@@ -339,6 +365,10 @@
         <div class="content">
             <div class="text-content" id="text-content">
                 <button class="close-button" id="close-btn">×</button>
+                <div class="size-controls">
+                    <button class="size-button" id="size-down">-</button>
+                    <button class="size-button" id="size-up">+</button>
+                </div>
                 <h1 id="work-title">PSEUDO</h1>
                 <div class="description-preview">
                     <p id="work-description-preview">
@@ -442,7 +472,8 @@
             // Don't start drag if clicking on buttons or links
             if (e.target.classList.contains('more-button') || 
                 e.target.classList.contains('close-button') ||
-                e.target.classList.contains('work-link')) {
+                e.target.classList.contains('work-link') ||
+                e.target.classList.contains('size-button')) {
                 return;
             }
             
@@ -525,9 +556,9 @@
             const work = works[currentIndex];
             document.getElementById('work-title').textContent = work.title;
             
-            // Create preview (first 120 characters + "...")
-            const preview = work.description.length > 120 ? 
-                work.description.substring(0, 120) + "..." : 
+            // Create preview (first 200 characters + "...")
+            const preview = work.description.length > 200 ? 
+                work.description.substring(0, 200) + "..." : 
                 work.description;
             
             document.getElementById('work-description-preview').textContent = preview;
@@ -563,6 +594,13 @@
             const mediaContent = document.getElementById('media-content');
             const moreBtn = document.getElementById('more-btn');
             const closeBtn = document.getElementById('close-btn');
+            const sizeUpBtn = document.getElementById('size-up');
+            const sizeDownBtn = document.getElementById('size-down');
+            
+            let currentScale = 1;
+            const scaleStep = 0.1;
+            const minScale = 0.5;
+            const maxScale = 2;
             
             makeElementDraggable(textContent);
             makeElementDraggable(mediaContent);
@@ -578,9 +616,32 @@
                 textContent.classList.remove('expanded');
             });
             
+            // Size control functionality
+            sizeUpBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentScale < maxScale) {
+                    currentScale += scaleStep;
+                    currentScale = Math.round(currentScale * 10) / 10; // Round to 1 decimal
+                    textContent.style.transform = `scale(${currentScale})`;
+                }
+            });
+            
+            sizeDownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentScale > minScale) {
+                    currentScale -= scaleStep;
+                    currentScale = Math.round(currentScale * 10) / 10; // Round to 1 decimal
+                    textContent.style.transform = `scale(${currentScale})`;
+                }
+            });
+            
             document.getElementById('next-btn').addEventListener('click', () => {
                 currentIndex = (currentIndex + 1) % works.length;
                 updateContent();
+                
+                // Reset scale when changing works
+                currentScale = 1;
+                textContent.style.transform = 'scale(1)';
             });
             
             updateContent();
