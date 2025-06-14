@@ -96,10 +96,6 @@
             cursor: grabbing !important;
         }
 
-        .text-content:active {
-            cursor: grabbing;
-        }
-
         h1 {
             font-size: 3rem;
             font-weight: 700;
@@ -158,6 +154,15 @@
         }
 
         .work-link:hover {
+            color: #666;
+        }
+
+        .description-full a {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        .description-full a:hover {
             color: #666;
         }
 
@@ -369,33 +374,25 @@
                     <button class="size-button" id="size-down">-</button>
                     <button class="size-button" id="size-up">+</button>
                 </div>
-                <h1 id="work-title">PSEUDO</h1>
+                <h1 id="work-title">QUASE</h1>
                 <div class="description-preview">
                     <p id="work-description-preview">
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+                        "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms..."
                     </p>
                     <button class="more-button" id="more-btn">mais</button>
                 </div>
                 <div class="description-full">
                     <p id="work-description-full">
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                        enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est
-                        laborum."
+                        "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms. The result is a dynamic artwork that sparks contemplation on the harmonious collaboration between human creativity and the machine's execution. It highlights the similarities between humans and machines-both capable of choices, adaptation, and information processing, though in different ways. The abstract nature of 'Quase' invites subjective interpretation, allowing viewers to engage with the artwork on a personal level. Made with p5js."
                     </p>
                     <a href="#" id="work-link-full" class="work-link" target="_blank">View</a>
                 </div>
             </div>
             <div class="media-content" id="media-content">
                 <a id="work-link" href="#" target="_blank">
-                <img id="work-image" src="assets/artworks/pseudo1.png" alt="PSEUDO" style="display: none;">
+                <img id="work-image" src="assets/artworks/pseudo1.png" alt="QUASE" style="display: none;">
                 <video id="work-video" autoplay loop muted playsinline>
-                    <source src="" type="video/mp4">
+                    <source src="assets/video/QUASE-12.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </a>
@@ -416,11 +413,32 @@
     <script>
         const works = [
             {
+                title: "DELÍRIO",
+                description: "'Delírio' features visuals by WiW with soundtrack by Veiga Hawk and Bisdvrk. Exhibited in an immersive room at the Fundação Bienal pavilion in São Paulo during TokenNation2025. Created with Hydra-synth featuring sound-reactive visuals. Images by Aldivo. Check out Veiga Hawk's work, explore Bisdvrk's profile, see Aldivo's profile, watch the full video, or experience the 360° immersive view.",
+                media: "assets/video/DELIRIO.mp4",
+                type: "video",
+                link: "https://www.instagram.com/p/DKr2XM3MrKg/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+                links: {
+                    "Veiga Hawk's work": "https://www.instagram.com/veiga_hawk/",
+                    "Bisdvrk's profile": "https://www.instagram.com/bisdvrk/",
+                    "Aldivo's profile": "https://www.instagram.com/aldivorodrigues/",
+                    "watch the full video": "https://www.youtube.com/watch?v=vBnNsF8t-OI",
+                    "360° immersive view": "https://www.youtube.com/watch?v=w9IeAdDK7U0"
+                }
+            },
+            {
                 title: "QUASE",
                 description: "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms. The result is a dynamic artwork that sparks contemplation on the harmonious collaboration between human creativity and the machine's execution. It highlights the similarities between humans and machines-both capable of choices, adaptation, and information processing, though in different ways. The abstract nature of 'Quase' invites subjective interpretation, allowing viewers to engage with the artwork on a personal level. Made with p5js.",
                 media: "assets/video/QUASE-12.mp4",
                 type: "video",
                 link: "https://256art.com/project/quase-3"
+            },
+            {
+                title: "SISTEMAS",
+                description: "In 'sistemas.15' I explore the assembly of systems through a painting algorithm that works with point definition and connection, movement traces, color overlays, blend modes, alpha control, and detailed color palette selection. Different canvas formats present various 'angles' of the work, where the humachine paints thoughts. The system features 2 groups of palettes with 5 and 2 colors respectively (43 total palettes), 5 background color types, 4 background texture patterns, and 15-25 connection points that link lines, beziers, squares and ellipses. Every generative art project drives me on an auto-consciousness journey, with each piece reflecting this exploration. Made with p5js.",
+                media: "assets/video/sistemas.mp4",
+                type: "video",
+                link: "https://www.fxhash.xyz/project/sistemas.15"
             },
             {
                 title: "PSEUDO",
@@ -446,10 +464,10 @@
             {
                 title: "APOFENIA",
                 description: "Apofenia is a short film directed by me with sound design by NAGUAL555. The image captures were taken during the SEED x BOSQUE GRACIAS artistic residency (2024), documenting various moments and works by different artists. Hydra-synth sound visualizers + pos-production.",
-                media: "assets/artworks/apofenia.gif",
-                type: "image",
-                link: "https://zora.co/collect/zora:0xd5fa58b8ce342c89e7864e01f18233fc07983e78/116"
-            },
+                media: "assets/video/apofenia.mp4",
+                type: "video",
+                link: "https://www.youtube.com/watch?v=QkyVuOVTh-s"
+            }
         ];
 
         let currentIndex = 0;
@@ -473,7 +491,8 @@
             if (e.target.classList.contains('more-button') || 
                 e.target.classList.contains('close-button') ||
                 e.target.classList.contains('work-link') ||
-                e.target.classList.contains('size-button')) {
+                e.target.classList.contains('size-button') ||
+                e.target.tagName === 'A') {
                 return;
             }
             
@@ -552,6 +571,17 @@
             document.removeEventListener('touchend', stopDrag);
         }
 
+        function processLinksInText(text, links) {
+            if (!links) return text;
+            
+            let processedText = text;
+            for (const [linkText, url] of Object.entries(links)) {
+                const linkHtml = `<a href="${url}" target="_blank">${linkText}</a>`;
+                processedText = processedText.replace(linkText, linkHtml);
+            }
+            return processedText;
+        }
+
         function updateContent() {
             const work = works[currentIndex];
             document.getElementById('work-title').textContent = work.title;
@@ -562,7 +592,13 @@
                 work.description;
             
             document.getElementById('work-description-preview').textContent = preview;
-            document.getElementById('work-description-full').textContent = work.description;
+            
+            // Process links for full description
+            const fullDescription = work.links ? 
+                processLinksInText(work.description, work.links) : 
+                work.description;
+            
+            document.getElementById('work-description-full').innerHTML = fullDescription;
             
             // Update only the expanded view link
             document.getElementById('work-link-full').href = work.link;
