@@ -67,12 +67,11 @@
         #principal-gallery {
             background-color: black;
             flex-grow: 1;
-            overflow: hidden; /* Changed from overflow-x: hidden */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow-y: auto; /* Allow vertical scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            display: block; /* Changed from flex for desktop */
             padding: 20px 0;
-            position: relative; /* Added for proper positioning */
+            position: relative;
         }
 
         .gallery {
@@ -85,6 +84,7 @@
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
+            min-height: 100%; /* Ensure content can expand */
         }
 
         .gallery-item {
@@ -294,6 +294,9 @@
                 padding: 0;
                 height: 70vh; /* Fixed height instead of flex-grow */
                 min-height: 500px; /* Minimum height for consistency */
+                display: flex; /* Keep flex for mobile */
+                align-items: center;
+                justify-content: center;
             }
 
             .gallery {
@@ -487,7 +490,26 @@
             }
         }
 
-        /* Custom scrollbar for gallery */
+        /* Custom scrollbar for desktop gallery */
+        #principal-gallery::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        #principal-gallery::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+        }
+
+        #principal-gallery::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+        }
+
+        #principal-gallery::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Custom scrollbar for mobile gallery */
         .gallery::-webkit-scrollbar {
             height: 8px;
         }
@@ -787,18 +809,22 @@
                 // Show carousel controls
                 document.querySelector('.carousel-controls').style.display = 'flex';
             } else {
-                // Desktop: Load items progressively
+                // Desktop: Load all items at once for proper scrolling
                 isCarousel = false;
-                const fragment = document.createDocumentFragment();
-
-                for (let i = 0; i < itemsPerLoad && currentIndex < galleryItems.length; i++) {
-                    const item = galleryItems[currentIndex];
-                    const galleryItem = createGalleryItem(item, currentIndex);
-                    fragment.appendChild(galleryItem);
-                    currentIndex++;
+                
+                // If this is the first load, clear gallery and load all items
+                if (currentIndex === 0) {
+                    gallery.innerHTML = '';
+                    const fragment = document.createDocumentFragment();
+                    
+                    galleryItems.forEach((item, index) => {
+                        const galleryItem = createGalleryItem(item, index);
+                        fragment.appendChild(galleryItem);
+                    });
+                    
+                    gallery.appendChild(fragment);
+                    currentIndex = galleryItems.length; // Mark all as loaded
                 }
-
-                gallery.appendChild(fragment);
                 
                 // Hide carousel controls
                 document.querySelector('.carousel-controls').style.display = 'none';
@@ -846,14 +872,9 @@
             shuffleArray(galleryItems);
             loadGalleryItems();
             
-            // Desktop scroll handler
-            if (!isCarousel) {
-                while (document.documentElement.scrollHeight <= window.innerHeight && currentIndex < galleryItems.length) {
-                    loadGalleryItems();
-                }
-                window.addEventListener('scroll', handleScroll);
-            }
-
+            // Desktop: No need for progressive loading since we load all items
+            // Mobile: No scroll handler needed for carousel
+            
             // Carousel controls
             document.getElementById('nextBtn').addEventListener('click', nextSlide);
             document.getElementById('prevBtn').addEventListener('click', prevSlide);
