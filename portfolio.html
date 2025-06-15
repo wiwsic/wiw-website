@@ -6,9 +6,356 @@
     <title>Portfolio - WiW</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/png/wiw32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/png/wiw16.png">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap">
+    <style>
+        html {
+            font-size: 16px;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Serif', serif;
+            background-color: black;
+            color: white;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        header nav a {
+            color: black;
+            text-decoration: none;
+            margin-left: 0;
+            font-size: 2.25rem;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        header nav a.active span {
+            background-color: black;
+            color: white;
+            padding: 2px 5px;
+        }
+
+        #principal-portfolio {
+            background-color: black;
+            flex-grow: 1;
+        }
+
+        .content {
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .portfolio-section {
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid white;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-section a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: color 0.3s ease;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        h2 a {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid white;
+            padding-bottom: 0.5rem;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            padding-bottom: 0.5rem;
+        }
+
+        .portfolio-section a:hover {
+            color: #000000;
+            background-color: #ffffff;
+        }
+
+        h2 a:hover {
+            color: white;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: white;
+            padding: 10px 0;
+            position: relative;
+            z-index: 1000;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 10px;
+        }
+
+        footer nav a {
+            color: black;
+            text-decoration: none;
+            font-size: 2.25rem;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .logo-link {
+            display: inline-block;
+            line-height: 0;
+        }
+
+        .logo-link:hover {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Tablet adjustments */
+        @media (max-width: 1200px) {
+            html {
+                font-size: 14px;
+            }
+            
+            header nav a, footer nav a {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            html {
+                font-size: 12px;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            header {
+                flex-direction: row;
+                align-items: center;
+                padding: 10px 15px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            header nav {
+                flex: 1;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            header nav a {
+                font-size: 1.3rem;
+                line-height: 1.2;
+                word-break: break-word;
+            }
+
+            .content {
+                padding: 20px 15px;
+                padding-top: 40px;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            h2 a {
+                font-size: 2.5rem;
+            }
+
+            .portfolio-section a {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            ul {
+                gap: 0.8rem;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            footer {
+                padding: 20px 0;
+            }
+
+            footer nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 15px;
+                padding: 0 20px;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            footer nav a {
+                font-size: 1.1rem;
+                text-align: center;
+                line-height: 1.3;
+                word-break: break-word;
+                padding: 12px 8px;
+                border-radius: 8px;
+                transition: background-color 0.3s ease;
+                background-color: rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            footer nav a:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            header {
+                padding: 8px 10px;
+            }
+
+            header nav a {
+                font-size: 1.1rem;
+            }
+
+            .content {
+                padding: 15px 10px;
+                padding-top: 30px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            h2 a {
+                font-size: 2rem;
+            }
+
+            .portfolio-section a {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .logo {
+                height: 28px;
+            }
+
+            footer nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 12px;
+                padding: 0 15px;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+
+            footer nav a {
+                font-size: 1rem;
+                padding: 10px 6px;
+                border-radius: 6px;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 768px) and (orientation: landscape) {
+            header {
+                flex-direction: row;
+                align-items: center;
+                padding: 8px 15px;
+            }
+
+            header nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            header nav a {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 15px 10px;
+                padding-top: 25px;
+            }
+
+            footer {
+                padding: 15px 0;
+            }
+
+            footer nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 10px;
+                padding: 0 10px;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
+            footer nav a {
+                font-size: 0.9rem;
+                padding: 8px 4px;
+                border-radius: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -16,7 +363,7 @@
             <img src="assets/img/png/wiwblack.png" alt="WiW Logo" class="logo">
         </a>
         <nav>
-            <a href="#" class="active">humachine human<span>ized experiment</span></a>
+            <a href="index.html" class="active">humachine human<span>ized experiment</span></a>
             <a href="about.html">about</a>
         </nav>
     </header>
@@ -38,7 +385,7 @@
                 </ul>
             </div>
             <div class="portfolio-section">
-                <h2>Exhibitions and others</h2>
+                <h2>Exhibitions and Events</h2>
                 <ul>
                     <li><a href="https://www.youtube.com/live/iZp9E_isNnQ?feature=share&t=19165" target="_blank">Hiperorgânicos 10: OpenLAB - NANO</a></li>
                     <li><a href="https://www.pupiladilatada.xyz/" target="_blank">MAM RIO - PUPILA DILATADA</a></li>
@@ -56,21 +403,21 @@
                     <li><a href="https://prohibition.art/project/pseudo" target="_blank">Pseudo</a></li>
                     <li><a href="https://www.fxhash.xyz/generative/30740" target="_blank">esse</a></li>
                     <li><a href="https://beta.koda.art/base/drops/eco" target="_blank">eco</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/16307" target="_blank">sistemas.15</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/11835" target="_blank">estruturas.14</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/9469" target="_blank">detalhe.13</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/7898" target="_blank">anomalia.12</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/5859" target="_blank">neurose.11</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/4859" target="_blank">antimateria.10</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/3889" target="_blank">deserto.9</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/3003" target="_blank">tempo.8</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/2543" target="_blank">ondas.7</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/2163" target="_blank">escadas.6</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/1942" target="_blank">aurora.5</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/1665" target="_blank">placas.4</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/1405" target="_blank">reconectar.3</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/1250" target="_blank">cubos.2</a></li>
-                    <li><a href="https://www.fxhash.xyz/generative/965" target="_blank">paralelas.1</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/16307" target="_blank">sistemas</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/11835" target="_blank">estruturas</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/9469" target="_blank">detalhe</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/7898" target="_blank">anomalia</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/5859" target="_blank">neurose</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/4859" target="_blank">antimateria</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/3889" target="_blank">deserto</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/3003" target="_blank">tempo</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/2543" target="_blank">ondas</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/2163" target="_blank">escadas</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/1942" target="_blank">aurora</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/1665" target="_blank">placas</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/1405" target="_blank">reconectar</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/1250" target="_blank">cubos</a></li>
+                    <li><a href="https://www.fxhash.xyz/generative/965" target="_blank">paralelas</a></li>
                 </ul>
             </div>
             <div class="portfolio-section">
