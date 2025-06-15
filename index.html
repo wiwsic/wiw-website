@@ -103,11 +103,40 @@
             cursor: grabbing !important;
         }
 
+        .title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tags-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            margin-top: 5px;
+        }
+
+        .tag {
+            background-color: black;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 400;
+            border-radius: 3px;
+            white-space: nowrap;
+            font-family: 'IBM Plex Serif', serif;
+        }
+
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            margin: 0 0 1rem 0;
+            margin: 0;
             color: black;
+            flex-shrink: 0;
         }
 
         p {
@@ -374,6 +403,16 @@
                 top: auto;
             }
 
+            .title-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .tags-container {
+                margin-top: 0;
+            }
+
             .media-content {
                 position: static;
                 max-width: 100%;
@@ -427,7 +466,12 @@
                     <button class="size-button" id="size-down">-</button>
                     <button class="size-button" id="size-up">+</button>
                 </div>
-                <h1 id="work-title">QUASE</h1>
+                <div class="title-section">
+                    <h1 id="work-title">QUASE</h1>
+                    <div class="tags-container" id="tags-container">
+                        <span class="tag">long-form</span>
+                    </div>
+                </div>
                 <div class="description-preview">
                     <p id="work-description-preview">
                         "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms..."
@@ -471,6 +515,7 @@
         const works = [
             {
                 title: "DELÍRIO",
+                tags: ["video-art", "art installation", "hydra"],
                 description: "'Delírio' features visuals by WiW with soundtrack by Veiga Hawk and Bisdvrk. Exhibited in an immersive room at the Fundação Bienal pavilion in São Paulo during TokenNation2025. Created with Hydra-synth featuring sound-reactive visuals. Images by Aldivo. Check out Veiga Hawk's work, explore Bisdvrk's profile, see Aldivo's profile, watch the full video, or experience the 360° immersive view.",
                 media: "assets/video/DELIRIO.mp4",
                 type: "video",
@@ -485,6 +530,7 @@
             },
             {
                 title: "QUASE",
+                tags: ["long-form", "p5js"],
                 description: "'Quase' blurs the line between human and machine in a mesmerizing code-based art piece. Using particles, the code transforms simple shapes into intricate, almost 'organic' forms. The result is a dynamic artwork that sparks contemplation on the harmonious collaboration between human creativity and the machine's execution. It highlights the similarities between humans and machines-both capable of choices, adaptation, and information processing, though in different ways. The abstract nature of 'Quase' invites subjective interpretation, allowing viewers to engage with the artwork on a personal level. Made with p5js.",
                 media: "assets/video/QUASE-12.mp4",
                 type: "video",
@@ -492,6 +538,7 @@
             },
             {
                 title: "00100000",
+                tags: ["video-art", "hydra"],
                 description: "Binary representation of '32' in digital form. Image modulation through hydra-synth, controlled via MIDI signaling. Part of the '127.0.0.1 Collection', continuing the exploration of digital protocols and localhost consciousness.",
                 media: "assets/video/32.mp4",
                 type: "video",
@@ -499,6 +546,7 @@
             },
             {
                 title: "FERVOR DA TERRA",
+                tags: ["video-art", "hydra"],
                 description: "Made with hydra-synth.js, featuring image modulation and feedback techniques. Rendered at 60fps for smooth visual flow. Part of the 'S.E.E.D. x NEWTRO // Buenos Aires 2025' collection, exploring the intersection of generative art and live coding practices.",
                 media: "assets/video/FERVOR.mp4",
                 type: "video",
@@ -506,6 +554,7 @@
             },
             {
                 title: "ESSE",
+                tags: ["long-form", "hydra"],
                 description: "'esse' is an exploration of the intersection between typography and symmetry, delving into palindromes and symbols. Each result seeks to challenge the viewer's perception, inviting them to try to place meaning into something abstract. Made with hydra-synth.",
                 media: "assets/video/esse.mp4",
                 type: "video",
@@ -513,6 +562,7 @@
             },
             {
                 title: "THE FIRST ANXIETY",
+                tags: ["video-art", "hydra"],
                 description: "'The First Anxiety of the Protocol' explores loopback conversations through real-time image modulation via hydra-synth, controlled through MIDI signaling. This piece delves into the recursive nature of digital communication and protocol anxiety. Part of the '127.0.0.1 Collection', examining localhost as both technical concept and metaphor for digital introspection.",
                 media: "assets/video/FIRST.mp4",
                 type: "video",
@@ -520,6 +570,7 @@
             },
             {
                 title: "APOFENIA",
+                tags: ["video-art", "short film", "hydra"],
                 description: "Apofenia is a short film directed by me with sound design by NAGUAL555. The image captures were taken during the SEED x BOSQUE GRACIAS artistic residency (2024), documenting various moments and works by different artists. Hydra-synth sound visualizers + pos-production.",
                 media: "assets/video/apofenia.mp4",
                 type: "video",
@@ -707,6 +758,18 @@
         function updateContent() {
             const work = works[currentIndex];
             document.getElementById('work-title').textContent = work.title;
+            
+            // Update tags
+            const tagsContainer = document.getElementById('tags-container');
+            tagsContainer.innerHTML = '';
+            if (work.tags && work.tags.length > 0) {
+                work.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
             
             // Create preview (first 200 characters + "...")
             const preview = work.description.length > 200 ? 
