@@ -65,6 +65,11 @@
             width: 100%;
             height: 100%;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-sizing: border-box;
         }
 
         .text-content {
@@ -72,24 +77,26 @@
             z-index: 100;
             background-color: white;
             color: black;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
             cursor: move;
             user-select: none;
-            max-width: 400px;
-            left: 50px;
-            top: 50px;
+            width: 500px;
+            min-height: 200px;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
             overflow: hidden;
             font-size: 1rem;
-            transform-origin: top left;
+            transform-origin: center;
         }
 
         .text-content.expanded {
-            max-width: 600px;
+            width: 600px;
             max-height: 80vh;
             overflow-y: auto;
-            transition: max-width 0.3s ease, max-height 0.3s ease;
+            transition: width 0.3s ease, max-height 0.3s ease;
         }
 
         .text-content.dragging {
@@ -214,10 +221,39 @@
             position: absolute;
             cursor: move;
             user-select: none;
-            right: 100px;
-            top: 100px;
-            max-width: 50vw;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 45vw;
             max-height: 60vh;
+            transform-origin: center;
+        }
+
+        .media-size-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            display: flex;
+            gap: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .media-size-button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .media-size-button:hover {
+            color: #ccc;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .media-content.dragging {
@@ -302,6 +338,14 @@
             html {
                 font-size: 14px;
             }
+            
+            .text-content {
+                width: 450px;
+            }
+            
+            .text-content.expanded {
+                width: 550px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -316,17 +360,26 @@
             .content {
                 position: static;
                 padding: 20px;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
             }
 
             .text-content {
                 position: static;
                 margin-bottom: 20px;
-                max-width: none;
+                width: auto;
+                transform: none;
+                left: auto;
+                top: auto;
             }
 
             .media-content {
                 position: static;
                 max-width: 100%;
+                transform: none;
+                right: auto;
+                top: auto;
             }
 
             .text-content,
@@ -389,6 +442,10 @@
                 </div>
             </div>
             <div class="media-content" id="media-content">
+                <div class="media-size-controls">
+                    <button class="media-size-button" id="media-size-down">-</button>
+                    <button class="media-size-button" id="media-size-up">+</button>
+                </div>
                 <a id="work-link" href="#" target="_blank">
                 <img id="work-image" src="assets/artworks/pseudo1.png" alt="QUASE" style="display: none;">
                 <video id="work-video" autoplay loop muted playsinline>
@@ -472,16 +529,54 @@
 
         let currentIndex = 0;
 
-        // Drag functionality - Simplified version
+        // Drag functionality - Fixed version
         let isDragging = false;
         let dragElement = null;
         let startX = 0;
         let startY = 0;
         let hasMoved = false;
+        let currentScale = 1;
+        let currentMediaScale = 1;
 
         function makeElementDraggable(element) {
             element.addEventListener('mousedown', startDrag, { passive: false });
             element.addEventListener('touchstart', startDrag, { passive: false });
+        }
+
+        // Extract scale value from transform string
+        function extractScale(transformString) {
+            if (!transformString || transformString === 'none') return 1;
+            const scaleMatch = transformString.match(/scale\(([^)]+)\)/);
+            return scaleMatch ? parseFloat(scaleMatch[1]) : 1;
+        }
+
+        // Build transform string preserving existing transforms and updating scale
+        function buildTransform(existingTransform, scale, left = null, top = null) {
+            let transforms = [];
+            
+            // Add position transforms if provided
+            if (left !== null && top !== null) {
+                transforms.push(`translate(${left}px, ${top}px)`);
+            } else if (existingTransform && existingTransform.includes('translateY')) {
+                // Preserve existing translateY if no position provided
+                const translateMatch = existingTransform.match(/translateY\([^)]+\)/);
+                if (translateMatch) {
+                    transforms.push(translateMatch[0]);
+                }
+            } else if (existingTransform && existingTransform.includes('translate(')) {
+                // Preserve existing translate if no position provided
+                const translateMatch = existingTransform.match(/translate\([^)]+\)/);
+                if (translateMatch) {
+                    transforms.push(translateMatch[0]);
+                }
+            }
+            
+            // Add scale if not 1
+            if (scale !== 1) {
+                transforms.push(`scale(${scale})`);
+            }
+            
+            return transforms.length > 0 ? transforms.join(' ') : 'none';
         }
 
         function startDrag(e) {
@@ -492,6 +587,7 @@
                 e.target.classList.contains('close-button') ||
                 e.target.classList.contains('work-link') ||
                 e.target.classList.contains('size-button') ||
+                e.target.classList.contains('media-size-button') ||
                 e.target.tagName === 'A') {
                 return;
             }
@@ -509,9 +605,32 @@
             // Get current element position
             const rect = dragElement.getBoundingClientRect();
             
+            // Get current scale from transform
+            const currentTransform = dragElement.style.transform;
+            const scale = extractScale(currentTransform);
+            
+            // Store current scale based on element type
+            if (dragElement.id === 'text-content') {
+                currentScale = scale;
+            } else if (dragElement.id === 'media-content') {
+                currentMediaScale = scale;
+            }
+            
+            // Get current position
+            const currentLeft = rect.left;
+            const currentTop = rect.top;
+            
+            // Set absolute positioning while preserving scale
+            dragElement.style.left = currentLeft + 'px';
+            dragElement.style.top = currentTop + 'px';
+            dragElement.style.right = 'auto';
+            
+            // Apply transform with preserved scale but without translateY
+            dragElement.style.transform = buildTransform('', scale);
+            
             // Calculate offset from mouse to element's current position
-            startX = clientX - rect.left;
-            startY = clientY - rect.top;
+            startX = clientX - currentLeft;
+            startY = clientY - currentTop;
             
             dragElement.classList.add('dragging');
             
@@ -533,12 +652,15 @@
             const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
             
             // Position element so the mouse stays at the same relative position
-            // where the user initially clicked within the element
             const newX = clientX - startX;
             const newY = clientY - startY;
             
             dragElement.style.left = newX + 'px';
             dragElement.style.top = newY + 'px';
+            
+            // Preserve scale during drag
+            const scale = dragElement.id === 'text-content' ? currentScale : currentMediaScale;
+            dragElement.style.transform = buildTransform('', scale);
         }
 
         function stopDrag(e) {
@@ -603,9 +725,23 @@
             // Update only the expanded view link
             document.getElementById('work-link-full').href = work.link;
             
-            // Reset expanded state
+            // Reset expanded state and position
             const textContent = document.getElementById('text-content');
+            const mediaContent = document.getElementById('media-content');
+            
             textContent.classList.remove('expanded');
+            
+            // Reset positions to center
+            if (window.innerWidth > 768) {
+                textContent.style.left = '5%';
+                textContent.style.top = '50%';
+                textContent.style.transform = 'translateY(-50%)';
+                
+                mediaContent.style.right = '5%';
+                mediaContent.style.top = '50%';
+                mediaContent.style.left = 'auto';
+                mediaContent.style.transform = 'translateY(-50%)';
+            }
             
             const mediaLink = document.getElementById('work-link');
             const imageElement = document.getElementById('work-image');
@@ -632,8 +768,9 @@
             const closeBtn = document.getElementById('close-btn');
             const sizeUpBtn = document.getElementById('size-up');
             const sizeDownBtn = document.getElementById('size-down');
+            const mediaSizeUpBtn = document.getElementById('media-size-up');
+            const mediaSizeDownBtn = document.getElementById('media-size-down');
             
-            let currentScale = 1;
             const scaleStep = 0.1;
             const minScale = 0.5;
             const maxScale = 2;
@@ -652,13 +789,16 @@
                 textContent.classList.remove('expanded');
             });
             
-            // Size control functionality
+            // Size control functionality for text content
             sizeUpBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (currentScale < maxScale) {
                     currentScale += scaleStep;
-                    currentScale = Math.round(currentScale * 10) / 10; // Round to 1 decimal
-                    textContent.style.transform = `scale(${currentScale})`;
+                    currentScale = Math.round(currentScale * 10) / 10;
+                    
+                    const currentTransform = textContent.style.transform;
+                    const newTransform = buildTransform(currentTransform, currentScale);
+                    textContent.style.transform = newTransform;
                 }
             });
             
@@ -666,18 +806,47 @@
                 e.stopPropagation();
                 if (currentScale > minScale) {
                     currentScale -= scaleStep;
-                    currentScale = Math.round(currentScale * 10) / 10; // Round to 1 decimal
-                    textContent.style.transform = `scale(${currentScale})`;
+                    currentScale = Math.round(currentScale * 10) / 10;
+                    
+                    const currentTransform = textContent.style.transform;
+                    const newTransform = buildTransform(currentTransform, currentScale);
+                    textContent.style.transform = newTransform;
                 }
             });
             
+            // Size control functionality for media content
+            mediaSizeUpBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentMediaScale < maxScale) {
+                    currentMediaScale += scaleStep;
+                    currentMediaScale = Math.round(currentMediaScale * 10) / 10;
+                    
+                    const currentTransform = mediaContent.style.transform;
+                    const newTransform = buildTransform(currentTransform, currentMediaScale);
+                    mediaContent.style.transform = newTransform;
+                }
+            });
+            
+            mediaSizeDownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentMediaScale > minScale) {
+                    currentMediaScale -= scaleStep;
+                    currentMediaScale = Math.round(currentMediaScale * 10) / 10;
+                    
+                    const currentTransform = mediaContent.style.transform;
+                    const newTransform = buildTransform(currentTransform, currentMediaScale);
+                    mediaContent.style.transform = newTransform;
+                }
+            });
+            
+            // Next button functionality
             document.getElementById('next-btn').addEventListener('click', () => {
                 currentIndex = (currentIndex + 1) % works.length;
                 updateContent();
                 
-                // Reset scale when changing works
+                // Reset scales when changing works
                 currentScale = 1;
-                textContent.style.transform = 'scale(1)';
+                currentMediaScale = 1;
             });
             
             updateContent();
